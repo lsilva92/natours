@@ -18,7 +18,7 @@ exports.isBooked = async (req, res, next) => {
 
   if (tourIds.includes(req.body.tour)) return next();
 
-  return next(new AppError('The user did not booked this tour', 400));
+  return next(new AppError('The user has to book this tour to review', 400));
 };
 
 exports.getAllReviews = factory.getAll(Review);
