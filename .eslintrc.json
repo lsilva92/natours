@@ -27,6 +27,11 @@
     "no-unused-vars": [
       "error",
       { "argsIgnorePattern": "req|res|next|val" }
-    ]
+    ],
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
   }
 }
+
+

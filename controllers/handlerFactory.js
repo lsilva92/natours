@@ -73,6 +73,8 @@ exports.getAll = Model =>
     //se for usado um route normal não é enviado nenhum parametro e é feita a pesquia por todos os tours
     if (req.params.tourId) filter = { tour: req.params.tourId };
 
+    if (req.params.userId) filter = { user: req.params.userId };
+
     //execute the query
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()

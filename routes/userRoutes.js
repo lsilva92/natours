@@ -1,6 +1,7 @@
 const express = require('express');
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
+const bookingRouter = require('./bookingRoutes');
 
 const router = express.Router();
 
@@ -13,6 +14,8 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 
 //Vai correr o middlerware protect antes de avançar para os routers abaixo
 router.use(authController.protect);
+
+router.use('/:userId/bookings', bookingRouter);
 
 router.patch('/updateMyPassword', authController.updatePassword);
 //authController.protect se if user is log in and allows to read user id from req.user.id
