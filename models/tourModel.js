@@ -1,3 +1,4 @@
+/* eslint-disable */
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 //const User = require('./userModel');
@@ -78,7 +79,20 @@ const tourSchema = new mongoose.Schema(
       default: Date.now(),
       select: false
     },
-    startDates: [Date],
+    startDates: [{
+      date: {
+          type: Date,
+          required: [true, 'A tour must have a start date']
+      },
+      participants: {
+          type: Number,
+          default: 0
+      },
+      soldOut: {
+          type: Boolean,
+          default: false
+      }
+  }],
     secretTour: {
       type: Boolean,
       default: false
