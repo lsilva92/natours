@@ -19,6 +19,8 @@ router
 
 router.route('/tour-stats').get(tourController.getTourStats);
 
+router.route('/tour-dates/:id').get(authController.protect, tourController.getTourDates);
+
 router
   .route('/monthly-plan/:year')
   .get(

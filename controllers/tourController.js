@@ -20,6 +20,16 @@ const upload = multer({
   fileFilter: multerFilter
 });
 
+exports.getTourDates = catchAsync(async (req, res, next) => {
+  const tour = await Tour.findById(req.params.id)
+  const tourDates = tour.startDates;
+
+  res.status(200).json({
+    result: 'success',
+    tourDates
+  });
+});
+
 exports.uploadTourImages = upload.fields([
   { name: 'imageCover', maxCount: 1 },
   { name: 'images', maxCount: 3 }
