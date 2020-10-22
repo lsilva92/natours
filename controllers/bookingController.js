@@ -4,6 +4,28 @@ const User = require('../models/userModel');
 const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
+const AppError = require('../utils/appError');
+
+
+exports.checkTourDate = catchAsync(async (req, res, next) => {
+  const tour = await Tour.findById(req.params.tourId);
+  
+  const  tourDate=[]; 
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < tour.startDates.length; i++) {
+    if (tour.startDates[i]._id == req.body.id)
+      tourDate.push(tour.startDates[i]);
+  }
+
+  if (tourDate[0].participants >= tour.maxGroupSize)
+    return next(new AppError('This tour is full for this date!', 401));
+
+  tourDate[0].participants++
+  tour.save();
+  next();
+
+  });
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get the currently booked tour
