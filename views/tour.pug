@@ -37,7 +37,7 @@ block content
                 .overview-box__group
                     h2.heading-secondary.ma-bt-lg Quick facts
                     //- "-" javasctip code that doesn't produce output
-                    - const date= tour.startDates[0].toLocaleString('en-US', {month: 'long', year: 'numeric'})
+                    - const date= tour.startDates[0].date.toLocaleString('en-US', {month: 'long', year: 'numeric'})
 
                     +overviewBox('Next Date',date, 'calendar')
                     +overviewBox('Difficulty', tour.difficulty, 'trending-up')
