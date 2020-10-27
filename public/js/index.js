@@ -18,6 +18,7 @@ const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const userSignUpForm = document.querySelector('.form--signup');
 const bookBtn = document.getElementById('book-tour');
+const popUpCard = document.querySelector('.popupcard');
 
 //VALUES
 
@@ -77,12 +78,34 @@ if (userSignUpForm)
     signUp({ name, email, password, passwordConfirm });
   });
 
+
+
 if (bookBtn)
   bookBtn.addEventListener('click', e => {
-    e.target.textContent = 'Processing...';
+    popUpCard.style.display='block';
+    
     const { tourId } = e.target.dataset;
-    bookTour(tourId);
-  });
+    
+  //Se clicar fora do pop up, fecha-o
+  window.onclick = function(e) {
+    if (e.target == popUpCard) {
+      popUpCard.style.display = "none";
+    }else if (e.target.id == 'myPopup0'){
+      const {tourDate}  = e.target.dataset
+      bookTour(tourId, tourDate);
+      console.log({tourId, tourDate})
+    }else if (e.target.id == 'myPopup1'){
+      const { tourDate } = e.target.dataset
+      bookTour(tourId, tourDate);
+      console.log(tourId, tourDate)
+    }else if (e.target.id == 'myPopup2'){
+      const { tourDate } = e.target.dataset
+      bookTour(tourId, tourDate);
+    }
+  }
+});
+  
 
+  
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20); 

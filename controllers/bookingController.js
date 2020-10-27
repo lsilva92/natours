@@ -8,19 +8,22 @@ const AppError = require('../utils/appError');
 
 
 exports.checkTourDate = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findById(req.params.tourId);
-  
+  console.log(req)
+  const tour = await Tour.findById(req.body.tourId);
   const  tourDate=[]; 
 
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < tour.startDates.length; i++) {
-    if (tour.startDates[i]._id == req.body.id)
+    if (tour.startDates[i]._id == req.body.tourDate)
       tourDate.push(tour.startDates[i]);
   }
 
-  if (tourDate[0].participants >= tour.maxGroupSize)
+  if (tourDate[0].participants >= tour.maxGroupSize){
+    tourDate[0].soldOut = true;
+    tour.save();
     return next(new AppError('This tour is full for this date!', 401));
-
+  }
+  
   tourDate[0].participants++
   tour.save();
   next();
@@ -28,8 +31,9 @@ exports.checkTourDate = catchAsync(async (req, res, next) => {
   });
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
+  console.log(req)
   // 1) Get the currently booked tour
-  const tour = await Tour.findById(req.params.tourId);
+  const tour = await Tour.findById(req.body.tourId);
   // console.log(tour);
 
   // 2) Create checkout session
@@ -41,7 +45,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     success_url: `${req.protocol}://${req.get('host')}/my-tours?alert=booking`,
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,
-    client_reference_id: req.params.tourId,
+    client_reference_id: req.body.tourId,
     line_items: [
       {
         name: `${tour.name} Tour`,

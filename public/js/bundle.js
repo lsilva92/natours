@@ -8729,45 +8729,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var stripe = Stripe('pk_test_51HYCb7LDqQcUoSIZm2YZkMYhHBsW5YLQNZSLhS2IP5UqpWuM3re9oHp9lBpyZ9dStT3OJG1ccStY95KsprVzzzdk00UN7UKTQl');
 
 var bookTour = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(tourId, date) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(tour, date) {
     var session;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
-            _context.next = 3;
+            console.log(tour);
+            _context.prev = 1;
+            _context.next = 4;
             return (0, _axios.default)({
               method: 'GET',
-              url: "/api/v1/booking/checkout-session/".concat(tourId),
+              url: '/api/v1/booking/checkout-session/',
               data: {
-                date: date
+                tourId: tour,
+                tourDate: date
               }
             });
 
-          case 3:
+          case 4:
             session = _context.sent;
-            _context.next = 6;
+            _context.next = 7;
             return stripe.redirectToCheckout({
               sessionId: session.data.session.id
             });
 
-          case 6:
-            _context.next = 12;
+          case 7:
+            _context.next = 13;
             break;
 
-          case 8:
-            _context.prev = 8;
-            _context.t0 = _context["catch"](0);
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context["catch"](1);
             console.log(_context.t0);
             (0, _alerts.showAlert)('error', _context.t0);
 
-          case 12:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[1, 9]]);
   }));
 
   return function bookTour(_x, _x2) {
@@ -9058,7 +9060,8 @@ var logOutBtn = document.querySelector('.nav__el--logout');
 var userDataForm = document.querySelector('.form-user-data');
 var userPasswordForm = document.querySelector('.form-user-password');
 var userSignUpForm = document.querySelector('.form--signup');
-var bookBtn = document.getElementById('book-tour'); //VALUES
+var bookBtn = document.getElementById('book-tour');
+var popUpCard = document.querySelector('.popupcard'); //VALUES
 //DELEGATION
 
 if (mapBox) {
@@ -9132,9 +9135,28 @@ if (userSignUpForm) userSignUpForm.addEventListener('submit', function (e) {
   });
 });
 if (bookBtn) bookBtn.addEventListener('click', function (e) {
-  e.target.textContent = 'Processing...';
-  var tourId = e.target.dataset.tourId;
-  (0, _stripe.bookTour)(tourId);
+  popUpCard.style.display = 'block';
+  var tourId = e.target.dataset.tourId; //Se clicar fora do pop up, fecha-o
+
+  window.onclick = function (e) {
+    if (e.target == popUpCard) {
+      popUpCard.style.display = "none";
+    } else if (e.target.id == 'myPopup0') {
+      var tourDate = e.target.dataset.tourDate;
+      (0, _stripe.bookTour)(tourId, tourDate);
+      console.log({
+        tourId: tourId,
+        tourDate: tourDate
+      });
+    } else if (e.target.id == 'myPopup1') {
+      var _tourDate = e.target.dataset.tourDate;
+      (0, _stripe.bookTour)(tourId, _tourDate);
+      console.log(tourId, _tourDate);
+    } else if (e.target.id == 'myPopup2') {
+      var _tourDate2 = e.target.dataset.tourDate;
+      (0, _stripe.bookTour)(tourId, _tourDate2);
+    }
+  };
 });
 var alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) (0, _alerts.showAlert)('success', alertMessage, 20);
@@ -9166,7 +9188,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49841" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50052" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
