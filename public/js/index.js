@@ -93,19 +93,15 @@ if (bookBtn)
     }else if (e.target.id == 'myPopup0'){
       const {tourDate}  = e.target.dataset
       bookTour(tourId, tourDate);
-      console.log({tourId, tourDate})
     }else if (e.target.id == 'myPopup1'){
       const { tourDate } = e.target.dataset
       bookTour(tourId, tourDate);
-      console.log(tourId, tourDate)
     }else if (e.target.id == 'myPopup2'){
       const { tourDate } = e.target.dataset
       bookTour(tourId, tourDate);
     }
   }
 });
-  
-
   
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20); 

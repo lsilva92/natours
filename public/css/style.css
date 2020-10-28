@@ -1357,6 +1357,7 @@ body {
 }
 .popuptexth:hover {
   color: rgb(40, 180, 135);
+  cursor: pointer;
 }
 
 /* Add animation (fade in the popup) */

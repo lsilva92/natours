@@ -7,9 +7,12 @@ const factory = require('./handlerFactory');
 const AppError = require('../utils/appError');
 
 
-exports.checkTourDate = catchAsync(async (req, res, next) => {
-  console.log(req)
+exports.getCheckoutSession = catchAsync(async (req, res, next) => {
+  // 1) Get the currently booked tour
   const tour = await Tour.findById(req.body.tourId);
+  // console.log(tour);
+  
+  //2)Check if data is full
   const  tourDate=[]; 
 
   // eslint-disable-next-line no-plusplus
@@ -24,19 +27,7 @@ exports.checkTourDate = catchAsync(async (req, res, next) => {
     return next(new AppError('This tour is full for this date!', 401));
   }
   
-  tourDate[0].participants++
-  tour.save();
-  next();
-
-  });
-
-exports.getCheckoutSession = catchAsync(async (req, res, next) => {
-  console.log(req)
-  // 1) Get the currently booked tour
-  const tour = await Tour.findById(req.body.tourId);
-  // console.log(tour);
-
-  // 2) Create checkout session
+  // 3) Create checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     // success_url: `${req.protocol}://${req.get('host')}/my-tours/?tour=${
@@ -59,6 +50,9 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       }
     ]
   });
+  
+  tourDate[0].participants++
+  tour.save();
 
   // 3) Create session as response
   res.status(200).json({
@@ -72,7 +66,7 @@ const createBookingCheckout = async session => {
   const user = (await User.findOne({ email: session.customer_email })).id;
   const price = session.amount_total / 100;
 
-  await Booking.create({ tour, user, price });
+  await Booking.create({ tour, user, price }); 
 };
 
 exports.webhookCheckout = (req, res, next) => {
