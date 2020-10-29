@@ -76,6 +76,22 @@ block content
         .reviews
             each review in tour.reviews
                 +reviewCard(review)
+            div.add__review
+                svg.review__icon
+                    use(xlink:href='/img/icons.svg#icon-plus-circle')
+                br    
+                | New Review
+            
+    section.review__form
+        div.review__content
+            h3.heading-secondary Add review to this Tour:
+            form.form
+                .form__group
+                    label.form__label(for='review') Review
+                    input#review.form__input(type='text')
+                .form__group.ma-bt-md
+                    label.form__label(for='rating') Stars
+                    input.reviews__rating
 
     section.section-cta
         .cta

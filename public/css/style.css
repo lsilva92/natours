@@ -1162,6 +1162,25 @@ body {
   width: 2rem;
   fill: #55c57a;
 }
+.review__icon {
+  height: 3rem;
+  width: 3rem;
+}
+.add__review {
+  color: #f1f1f1;
+  fill: #f1f1f1;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 10rem;
+  text-align: center;
+}
+.add__review:hover {
+  color: #7dd56f;
+  fill: #7dd56f;
+  cursor: pointer;
+}
+
 .card__footer {
   background-color: #f7f7f7;
   padding: 2.5rem 3rem;
@@ -1358,6 +1377,34 @@ body {
 .popuptexth:hover {
   color: rgb(40, 180, 135);
   cursor: pointer;
+}
+
+.review__form {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.review__content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  height: 60%;
+  text-align: center;
+  color: black;
+  font-size: 1.6rem;
+  font-family: Lato, sans-serif;
+  margin-top: 1rem;
 }
 
 /* Add animation (fade in the popup) */

@@ -19,6 +19,8 @@ const userPasswordForm = document.querySelector('.form-user-password');
 const userSignUpForm = document.querySelector('.form--signup');
 const bookBtn = document.getElementById('book-tour');
 const popUpCard = document.querySelector('.popupcard');
+const addReview = document.querySelector('.add__review');
+const reviewForm = document.querySelector('.review__form')
 
 //VALUES
 
@@ -89,7 +91,7 @@ if (bookBtn)
   //Se clicar fora do pop up, fecha-o
   window.onclick = function(e) {
     if (e.target == popUpCard) {
-      popUpCard.style.display = "none";
+      popUpCard.style.display = 'none';
     }else if (e.target.id == 'myPopup0'){
       const {tourDate}  = e.target.dataset
       bookTour(tourId, tourDate);
@@ -102,6 +104,17 @@ if (bookBtn)
     }
   }
 });
+
+if(addReview)
+    addReview.addEventListener('click', e => {
+    reviewForm.style.display='block';
+    
+    window.onclick = function(e) {
+      if (e.target == reviewForm){
+        reviewForm.style.display = 'none'
+      }
+    }
+  });
   
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20); 
