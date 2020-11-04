@@ -663,6 +663,14 @@ body {
   display: -ms-flexbox;
   display: flex;
 }
+.starhover:hover {
+  fill: #55c57a;
+}
+
+.reviewbtn {
+  margin-left: 0;
+}
+
 .reviews__star {
   height: 2rem;
   width: 2rem;
@@ -674,7 +682,6 @@ body {
 .reviews__star--inactive {
   fill: #bbb;
 }
-
 .section-cta {
   margin-top: calc(0px - var(--section-rotate));
   padding: 3rem;
@@ -1399,7 +1406,6 @@ body {
   padding: 20px;
   border: 1px solid #888;
   width: 30%;
-  height: 60%;
   text-align: center;
   color: black;
   font-size: 1.6rem;

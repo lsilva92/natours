@@ -9,6 +9,7 @@ import { updateSettings } from './updateSettings';
 import { signUp } from './signUp';
 import { bookTour } from './stripe';
 import { showAlert } from './alerts';
+import { createReview} from './review'
 
 // DOM ELEMENTS
 const mapBox = document.getElementById('map');
@@ -20,7 +21,9 @@ const userSignUpForm = document.querySelector('.form--signup');
 const bookBtn = document.getElementById('book-tour');
 const popUpCard = document.querySelector('.popupcard');
 const addReview = document.querySelector('.add__review');
-const reviewForm = document.querySelector('.review__form')
+const reviewForm = document.querySelector('.review__form');
+const reviewStar = document.querySelector('.reviews__ratingpop');
+const reviewFormSub = document.querySelector('.form-review')
 
 //VALUES
 
@@ -114,6 +117,38 @@ if(addReview)
         reviewForm.style.display = 'none'
       }
     }
+  });
+  
+  if(reviewStar)
+    reviewStar.addEventListener('click', e => {
+      const star = [1,2,3,4,5];
+      const rating = e.target.id;
+      
+      for(let i = 0; i < star.length; i++){
+        if (rating >= star[i]){
+          document.getElementById(`${star[i]}`).classList.remove('reviews__star--inactive');
+          document.getElementById(`${star[i]}`).classList.add('reviews__star--active')
+        }else{
+            document.getElementById(`${star[i]}`).classList.remove('reviews__star--active');
+            document.getElementById(`${star[i]}`).classList.add('reviews__star--inactive');
+        }
+      }
+});
+    
+if (reviewFormSub)
+    reviewFormSub.addEventListener('submit', e => {
+    e.preventDefault();
+    const review = document.getElementById('review').value;
+    
+    const ratings = []
+    const stars = document.querySelector('.reviews__ratingpop').querySelectorAll('.reviews__star--active')
+    
+    for (let i= 0; i < stars.length; i++){
+      ratings.push(stars[i].dataset.reviewId)
+    }
+    const rating = Math.max(...ratings)
+    const tourId = document.getElementById('review-tour').dataset.tourId
+    createReview(tourId, review, rating);
   });
   
 const alertMessage = document.querySelector('body').dataset.alert;

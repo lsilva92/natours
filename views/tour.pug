@@ -76,22 +76,28 @@ block content
         .reviews
             each review in tour.reviews
                 +reviewCard(review)
-            div.add__review
-                svg.review__icon
-                    use(xlink:href='/img/icons.svg#icon-plus-circle')
-                br    
-                | New Review
-            
+            if user
+                div.add__review
+                    svg.review__icon
+                        use(xlink:href='/img/icons.svg#icon-plus-circle')
+                    br    
+                    | New Review
+                
     section.review__form
         div.review__content
             h3.heading-secondary Add review to this Tour:
-            form.form
+            form.form.form-review
                 .form__group
                     label.form__label(for='review') Review
-                    input#review.form__input(type='text')
-                .form__group.ma-bt-md
+                    input#review.form__input(type='text', name='review', placeholder='Type your review here...', required)
+                .form__group
                     label.form__label(for='rating') Stars
-                    input.reviews__rating
+                    div.reviews__ratingpop
+                        each star in [1, 2, 3, 4, 5]
+                            svg.reviews__star.starhover(class=`reviews__star--inactive` id=star name='reviews__ratingpop', data-review-id=`${star}`)
+                                use(xlink:href='/img/icons.svg#icon-star')
+                .form__group
+                    button.btn.btn--small.btn--green.reviewbtn#review-tour(data-tour-id=`${tour.id}`) Submit Review!
 
     section.section-cta
         .cta
@@ -111,3 +117,4 @@ block content
                                 p(class= 'popuptexth' id=`myPopup${i}` data-tour-date=`${tour.startDates[i].id}`)=`${tour.startDates[i].date.toLocaleString('en-GB', { timeZone: 'UTC' })}`
                 else
                     a.btn.btn--green.span-all-row(href='/login') Log in to book tour
+ 
