@@ -77,11 +77,12 @@ block content
             each review in tour.reviews
                 +reviewCard(review)
             if user
-                div.add__review
-                    svg.review__icon
-                        use(xlink:href='/img/icons.svg#icon-plus-circle')
-                    br    
-                    | New Review
+                if isBooked === true
+                    div.add__review
+                        svg.review__icon
+                            use(xlink:href='/img/icons.svg#icon-plus-circle')
+                        br    
+                        | New Review
                 
     section.review__form
         div.review__content
