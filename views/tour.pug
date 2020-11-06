@@ -107,15 +107,18 @@ block content
             img.cta__img.cta__img--1(src=`/img/tours/${tour.images[1]}`, alt='Tour picture')
             img.cta__img.cta__img--2(src=`/img/tours/${tour.images[2]}`, alt='Tour picture')
             .cta__content
-                h2.heading-secondary What are you waiting for?
-                p.cta__text=`${tour.duration} days. 1 adventure. Infinite memories. Make it yours today!`
-                if user
-                    button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tour.id}`) Book tour now!
-                    div.popupcard
-                        div.popcontent
-                            h3.heading-secondary.heading-secondarymarg Select Date:
-                            each i in [0,1,2]
-                                p(class= 'popuptexth' id=`myPopup${i}` data-tour-date=`${tour.startDates[i].id}`)=`${tour.startDates[i].date.toLocaleString('en-GB', { timeZone: 'UTC' })}`
+                if isBooked === true
+                     h2.heading-secondary This Tour was already booked!
                 else
-                    a.btn.btn--green.span-all-row(href='/login') Log in to book tour
- 
+                    h2.heading-secondary What are you waiting for?
+                    p.cta__text=`${tour.duration} days. 1 adventure. Infinite memories. Make it yours today!`
+                    if user
+                        button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tour.id}`) Book tour now!
+                        div.popupcard
+                            div.popcontent
+                                h3.heading-secondary.heading-secondarymarg Select Date:
+                                each i in [0,1,2]
+                                    p(class= 'popuptexth' id=`myPopup${i}` data-tour-date=`${tour.startDates[i].id}`)=`${tour.startDates[i].date.toLocaleString('en-GB', { timeZone: 'UTC' })}`
+                    else
+                        a.btn.btn--green.span-all-row(href='/login') Log in to book tour
+        
