@@ -18,6 +18,9 @@ router.use(authController.protect);
 router.use('/:userId/bookings', bookingRouter);
 
 router.patch('/updateMyPassword', authController.updatePassword);
+
+router.route('/likeTour').post(userController.likeTour).delete(userController.deleteFavoriteTour);
+
 //authController.protect se if user is log in and allows to read user id from req.user.id
 router.get('/me', userController.getMe, userController.getUser);
 router.patch(

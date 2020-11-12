@@ -9,7 +9,8 @@ import { updateSettings } from './updateSettings';
 import { signUp } from './signUp';
 import { bookTour } from './stripe';
 import { showAlert } from './alerts';
-import { createReview} from './review'
+import { createReview} from './review';
+import { addLikeTour, deleteLikeTour } from './like';
 
 // DOM ELEMENTS
 const mapBox = document.getElementById('map');
@@ -23,7 +24,8 @@ const popUpCard = document.querySelector('.popupcard');
 const addReview = document.querySelector('.add__review');
 const reviewForm = document.querySelector('.review__form');
 const reviewStar = document.querySelector('.reviews__ratingpop');
-const reviewFormSub = document.querySelector('.form-review')
+const reviewFormSub = document.querySelector('.form-review');
+const likeTour = document.querySelector('.favorite');
 
 //VALUES
 
@@ -151,5 +153,18 @@ if (reviewFormSub)
     createReview(tourId, review, rating);
   });
   
+if(likeTour)
+  likeTour.addEventListener('click', e => {
+    const like = document.querySelector('.like__icon').classList.toggle('liked');
+    
+    const tourId = document.querySelector('.like__icon').dataset.tourId;
+    
+    if(like){
+      addLikeTour(tourId);
+    }else{
+      deleteLikeTour(tourId);
+    }
+  })
+
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20); 

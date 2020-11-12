@@ -1431,3 +1431,23 @@ body {
     opacity: 1;
   }
 }
+.like__section {
+  margin-top: 5rem;
+}
+.like__icon {
+  height: 3rem;
+  width: 3rem;
+  cursor: pointer;
+}
+.favorite {
+  fill: #bbb;
+  font-size: 1.7rem;
+  margin-right: 1rem;
+}
+.favorite__text {
+  width: 59%;
+  float: left;
+}
+.liked {
+  fill: #55c57a;
+}

@@ -32,9 +32,12 @@ exports.getTour = catchAsync(async (req, res, next) => {
   }).populate({
     path: 'bookings',
     fields: 'user'
+  }).populate({
+    path:'users',
+    fields:'likedTours'
   });
   
-
+  
   if (!tour) {
     return next(new AppError('There is no tour with that name.', 404));
   }
@@ -42,7 +45,17 @@ exports.getTour = catchAsync(async (req, res, next) => {
 if (req.cookies.jwt){
       const currentUser = res.locals.user._id;
       let isBooked = false;
-    
+      let isLiked= false;
+      
+      
+      if(tour.users[0]){
+        for (let i=0; i < tour.users[0].likedTours.length; i++){
+              if(tour.users[0].likedTours[i]._id.equals(tour._id)){
+                isLiked=true;
+              }
+            }
+      }
+      
       for (let i=0; i < tour.bookings.length; i++){
         if(tour.bookings[i].user._id.equals(currentUser)){
           isBooked=true;
@@ -51,7 +64,8 @@ if (req.cookies.jwt){
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
     tour,
-    isBooked
+    isBooked,
+    isLiked
   }); 
 }else {
   res.status(200).render('tour', {

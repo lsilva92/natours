@@ -53,7 +53,21 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  lastRetry: Date
+  lastRetry: Date,
+  likedTours: [
+    {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Tour'
+  }
+]
+});
+
+userSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'likedTours',
+    select: '-guides -startLocation -ratingsAverage -ratingsQuantity -images -secretTour -startDates -duration -maxGroupSize -difficulty -price -summary -description -imageCover -locations -__v -slug '
+  });
+  next();
 });
 
 userSchema.pre('save', async function(next) {

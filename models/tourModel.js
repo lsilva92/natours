@@ -157,6 +157,12 @@ tourSchema.virtual('bookings', {
   localField: '_id'
 })
 
+tourSchema.virtual('users', {
+  ref:'User',
+  foreignField: 'likedTours',
+  localField: '_id'
+});
+
 //DOCUMENT MIDDLEWARE: runs befor .save() and .create()
 tourSchema.pre('save', function(next) {
   this.slug = slugify(this.name, { lower: true }); //"this" is the currently processed document

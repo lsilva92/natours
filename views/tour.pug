@@ -30,8 +30,9 @@ block content
                     svg.heading-box__icon
                         use(xlink:href='/img/icons.svg#icon-map-pin')
                     span.heading-box__text=tour.startLocation.description
-
+                    
     section.section-description
+
         .overview-box
             div
                 .overview-box__group
@@ -62,8 +63,18 @@ block content
             - const paragraphs = tour.description.split('\n');
             each p in paragraphs
                 p.description__text=p
-
-
+            if user
+                div.like__section
+                    div.favorite__text
+                        h2.heading-secondary.ma-bt-lg Add This Tour To Favorites
+                    div.favorite
+                        if isLiked
+                            svg.like__icon.liked#like-tour(data-tour-id=`${tour.id}`)
+                                use(xlink:href='/img/icons.svg#icon-heart')
+                        else
+                            svg.like__icon#like-tour(data-tour-id=`${tour.id}`)
+                                use(xlink:href='/img/icons.svg#icon-heart')
+                        
     section.section-pictures
         each img, i in tour.images
             .picture-box

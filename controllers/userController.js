@@ -71,7 +71,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
   //2)Filtar campos que não podem ser alterados
-  const filteredBody = filterObj(req.body, 'name', 'email');
+  const filteredBody = filterObj(req.body, 'name', 'email', 'likedTours');
   if (req.file) filteredBody.photo = req.file.filename;
 
   //3) Update user document
@@ -103,6 +103,33 @@ exports.createUser = (req, res) => {
     message: 'route is not defined! Please use signup instead'
   });
 };
+
+exports.likeTour = catchAsync(async (req, res, next) => {
+  
+ const user =  await User.findById(req.user.id);
+ 
+ user.likedTours.push(req.body.id);
+ await user.save({ validateBeforeSave: false});
+ 
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user
+    }
+  });
+});
+
+exports.deleteFavoriteTour= catchAsync(async (req, res, next) => {
+  const user =  await User.findById(req.user.id);
+ 
+ user.likedTours.pull(req.body.id);
+ await user.save({ validateBeforeSave: false});
+ 
+  res.status(204).json({
+    status: 'success',
+    data: null
+  });
+});
 
 exports.getAllUsers = factory.getAll(User);
 exports.getUser = factory.getOne(User);
