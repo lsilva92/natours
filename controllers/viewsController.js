@@ -101,6 +101,22 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getFavorites = catchAsync(async (req, res, next) => {
+  //1) Find Favorite tours for logged user
+  const user  = await User.findById(req.user.id);
+  const tourIds = user.likedTours.map(el => el._id);
+  console.log(user)
+  console.log(tourIds)
+  
+  const tours= await Tour.find({ _id: {$in: tourIds } })
+  
+  //2)render overview with tour id's retruned in the previous step
+  res.status(200).render('overview', {
+    Title: 'Favorite Tours',
+    tours
+  })
+})
+
 exports.updateUserData = catchAsync(async (req, res, next) => {
   const updatedUser = await User.findByIdAndUpdate(
     req.user.id,
