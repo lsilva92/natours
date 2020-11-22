@@ -1451,3 +1451,23 @@ body {
 .liked {
   fill: #55c57a;
 }
+.green {
+  background-image: linear-gradient(to right, #7dd56f, #28b487);
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: 0.1rem;
+  font-size: 2rem;
+}
+.icon {
+  height: 3rem;
+  width: 3rem;
+}
+.edit {
+  margin-top: 1rem;
+}
+.edit__icon {
+  cursor: pointer;
+}
+.edit__icon:hover {
+  fill: #55c57a;
+}

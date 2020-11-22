@@ -9,7 +9,7 @@ import { updateSettings } from './updateSettings';
 import { signUp } from './signUp';
 import { bookTour } from './stripe';
 import { showAlert } from './alerts';
-import { createReview} from './review';
+import { createReview, editReview } from './review';
 import { addLikeTour, deleteLikeTour } from './like';
 
 // DOM ELEMENTS
@@ -20,8 +20,10 @@ const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const userSignUpForm = document.querySelector('.form--signup');
 const bookBtn = document.getElementById('book-tour');
+const reviewBtn= document.getElementById('detail-review');
 const popUpCard = document.querySelector('.popupcard');
 const addReview = document.querySelector('.add__review');
+const editReviewForm = document.querySelector('.form--review');
 const reviewForm = document.querySelector('.review__form');
 const reviewStar = document.querySelector('.reviews__ratingpop');
 const reviewFormSub = document.querySelector('.form-review');
@@ -84,6 +86,22 @@ if (userSignUpForm)
     const passwordConfirm = document.getElementById('password-confirm').value;
     signUp({ name, email, password, passwordConfirm });
   });
+  
+if(editReviewForm)  
+  editReviewForm.addEventListener('submit', e=>{
+    e.preventDefault();
+    const { reviewId } = reviewBtn.dataset;
+    const review= document.getElementById('review').value;
+    const ratings = []
+    const stars = document.querySelector('.reviews__ratingpop').querySelectorAll('.reviews__star--active')
+    
+    for (let i= 0; i < stars.length; i++){
+      ratings.push(stars[i].dataset.reviewId)
+    }
+    const rating = Math.max(...ratings)
+    
+    editReview(reviewId, review, rating)
+  });
 
 
 
@@ -110,8 +128,9 @@ if (bookBtn)
   }
 });
 
-if(addReview)
-    addReview.addEventListener('click', e => {
+function reviewAddEdit(item){ 
+    console.log(item)
+    item.addEventListener('click', e => {
     reviewForm.style.display='block';
     
     window.onclick = function(e) {
@@ -120,7 +139,13 @@ if(addReview)
       }
     }
   });
+}
+
   
+if(addReview)
+  reviewAddEdit(addReview);
+
+ 
   if(reviewStar)
     reviewStar.addEventListener('click', e => {
       const star = [1,2,3,4,5];

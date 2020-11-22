@@ -1,0 +1,18 @@
+extends base
+
+block content
+    main.main
+        .login-form
+            h2.heading-secondary.ma-bt-lg=`Edit Review: ${review.tour.name}`
+            form.form.form--review
+                .form__group.ma-bt-md
+                    label.form__label(for='reviewText') Review
+                    input#review.form__input(type='text', value=`${review.review}`, required)
+                .form__group
+                    label.form__label(for='rating') Stars
+                    div.reviews__ratingpop
+                        each star in [1, 2, 3, 4, 5]
+                            svg.reviews__star.starhover(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}` id=star name='reviews__ratingpop', data-review-id=`${star}`)
+                                use(xlink:href='/img/icons.svg#icon-star')
+                .form__group.right
+                    button.btn.btn--small.btn--green#detail-review(data-review-id=`${review.id}`) Save Changes
