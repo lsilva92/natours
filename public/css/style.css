@@ -1471,3 +1471,27 @@ body {
 .edit__icon:hover {
   fill: #55c57a;
 }
+table {
+  font-family: 'Lato', sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 1.3rem;
+}
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  font-size: 1.5rem;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+.col {
+  text-decoration: underline;
+}
+.edit--table {
+  margin-top: 1rem;
+  align-self: flex-end;
+}

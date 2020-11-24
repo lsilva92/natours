@@ -162,3 +162,63 @@ exports.signUp = (req, res) => {
     title: 'Sign Up'
   });
 };
+
+
+
+exports.checkDoc = (doc) => {
+  return (req, res, next) => {
+    req.body.doc = doc 
+    next();
+  }
+}
+
+
+exports.manageDocs = catchAsync(async (req, res, next) => {
+  if(req.body.doc === 'tour'){
+    const tours = await Tour.find().select('name duration price ratingsAverage');
+    
+    const columns = ['Tour Name', 'Duration', 'Price', 'rating']
+    let tourDuration = [];
+    let tourPrice = [];
+    let tourRatings= [];
+    let tourNames = [];
+    
+    for (let i = 0; i < tours.length; i++){
+      tourNames.push(tours[i].name);
+      tourDuration.push(tours[i].duration)
+      tourPrice.push(tours[i].price);
+      tourRatings.push(tours[i].ratingsAverage)
+    }
+    
+    res.status(200).render('manageBO', {
+         title: 'Manage Tours',
+         columns,
+         docs: [tourNames,tourDuration,tourPrice,tourRatings]
+     });
+  }else if(req.body.doc === 'user'){
+    const users =  await User.find().select('name email role active retry');
+    const columns = ['User', 'email','role','active','retry'];
+    let userName = [];
+    let email=[];
+    let role=[];
+    let active=[];
+    let retry=[];
+    
+    for (let i = 0; i < users.length; i++){
+      userName.push(users[i].name);
+      email.push(users[i].email);
+      role.push(users[i].role);
+      active.push(users[i].active);
+      retry.push(users[i].retry);
+    }
+    
+    res.status(200).render('manageBO', {
+      title: 'Manage Tours',
+      columns,
+      docs: [userName,email,role,active,retry]
+  });
+    
+  }else{
+    return next(new AppError('No document Found',400))
+  }
+ }); 

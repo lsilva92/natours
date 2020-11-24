@@ -28,6 +28,7 @@ const reviewForm = document.querySelector('.review__form');
 const reviewStar = document.querySelector('.reviews__ratingpop');
 const reviewFormSub = document.querySelector('.form-review');
 const likeTour = document.querySelector('.favorite');
+const editTable = document.querySelector('.edit--table')
 
 //VALUES
 
@@ -190,6 +191,14 @@ if(likeTour)
       deleteLikeTour(tourId);
     }
   })
+  
+if(editTable)
+  editTable.addEventListener('click', e => {
+    const x = document.querySelectorAll('.tcontent')
+    for(let i= 0; i < x.length; i++){
+      x[i].contentEditable='true'
+    }
+  });
 
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20); 

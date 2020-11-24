@@ -1,0 +1,16 @@
+extends base
+    
+block content
+    table
+        -for(let i = 0; i < columns.length; i++)
+            th.col= columns[i]
+        tr
+        -for(let i= 0; i < docs[0].length; i++){
+        tr
+            -for(let x=0; x < docs.length; x++){
+                td.tcontent=docs[x][i]
+            -}
+        -}
+    div.edit--table
+        svg.icon.edit__icon
+            use(xlink:href='/img/icons.svg#icon-edit')
