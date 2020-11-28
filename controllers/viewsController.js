@@ -175,29 +175,41 @@ exports.checkDoc = (doc) => {
 
 exports.manageDocs = catchAsync(async (req, res, next) => {
   if(req.body.doc === 'tour'){
-    const tours = await Tour.find().select('name duration price ratingsAverage');
+    const tours = await Tour.find().select('name duration price maxGroupSize');
     
-    const columns = ['Tour Name', 'Duration', 'Price', 'rating']
+    const columns = ['Tour Name', 'Duration', 'Price', 'maxGroupSize'];
+    const domID = ['tour','duration','price','maxGroupSize'];
+    const table = 'tour'
+    let ids = []
     let tourDuration = [];
     let tourPrice = [];
-    let tourRatings= [];
+    let tourGroupSize= [];
     let tourNames = [];
     
+    
     for (let i = 0; i < tours.length; i++){
+      ids.push(tours[i]._id)
       tourNames.push(tours[i].name);
       tourDuration.push(tours[i].duration)
       tourPrice.push(tours[i].price);
-      tourRatings.push(tours[i].ratingsAverage)
+      tourGroupSize.push(tours[i].maxGroupSize)
     }
+    
     
     res.status(200).render('manageBO', {
          title: 'Manage Tours',
+         table,
+         domID,
+         ids,
          columns,
-         docs: [tourNames,tourDuration,tourPrice,tourRatings]
+         docs: [tourNames,tourDuration,tourPrice,tourGroupSize]
      });
   }else if(req.body.doc === 'user'){
     const users =  await User.find().select('name email role active retry');
     const columns = ['User', 'email','role','active','retry'];
+    const table = 'user'
+    let domID =['user', 'email','role','active','retry']
+    let ids = []
     let userName = [];
     let email=[];
     let role=[];
@@ -205,6 +217,7 @@ exports.manageDocs = catchAsync(async (req, res, next) => {
     let retry=[];
     
     for (let i = 0; i < users.length; i++){
+      ids.push(users[i]._id)
       userName.push(users[i].name);
       email.push(users[i].email);
       role.push(users[i].role);
@@ -212,8 +225,12 @@ exports.manageDocs = catchAsync(async (req, res, next) => {
       retry.push(users[i].retry);
     }
     
+    
     res.status(200).render('manageBO', {
-      title: 'Manage Tours',
+      title: 'Manage Users',
+      table,
+      ids,
+      domID,
       columns,
       docs: [userName,email,role,active,retry]
   });

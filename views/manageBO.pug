@@ -1,16 +1,22 @@
 extends base
     
 block content
-    table
+    table(class = `${table}`)
         -for(let i = 0; i < columns.length; i++)
             th.col= columns[i]
         tr
         -for(let i= 0; i < docs[0].length; i++){
-        tr
+        tr(data-id=`${ids[i]}`)
             -for(let x=0; x < docs.length; x++){
-                td.tcontent=docs[x][i]
+                td.tcontent(id=`${domID[x]}`)=docs[x][i]
             -}
+                td.actions
+                    div.edit--table
+                        svg.icon.edit__icon
+                            use(xlink:href='/img/icons.svg#icon-edit')    
+                    .form__group.btn--table
+                        svg.icon.icon--save.save
+                            use(xlink:href='/img/icons.svg#icon-save')
+                        svg.icon.icon--cancel.cancel
+                            use(xlink:href='/img/icons.svg#icon-x-circle')
         -}
-    div.edit--table
-        svg.icon.edit__icon
-            use(xlink:href='/img/icons.svg#icon-edit')

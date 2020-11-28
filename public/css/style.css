@@ -238,6 +238,25 @@ body {
   background-color: #55c57a;
 }
 
+.btn--red {
+  margin-left: 1rem;
+  background-color: #ca2929;
+  color: #fff;
+}
+.btn--red::after {
+  background-color: #ca2929;
+}
+.btn--table {
+  margin-top: 1rem;
+  display: none;
+  align-self: flex-end;
+}
+.show {
+  display: block;
+}
+.hide {
+  display: none;
+}
 .btn--small {
   padding: 1.25rem 3rem !important;
   font-size: 1.4rem !important;
@@ -1494,4 +1513,13 @@ tr:nth-child(even) {
 .edit--table {
   margin-top: 1rem;
   align-self: flex-end;
+}
+.icon--save {
+  fill: #55c57a;
+  cursor: pointer;
+}
+.icon--cancel {
+  margin-left: 1rem;
+  fill: #ca2929;
+  cursor: pointer;
 }
