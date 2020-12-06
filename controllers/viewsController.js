@@ -177,8 +177,8 @@ exports.manageDocs = catchAsync(async (req, res, next) => {
   if(req.body.doc === 'tour'){
     const tours = await Tour.find().select('name duration price maxGroupSize');
     
-    const columns = ['Tour Name', 'Duration', 'Price', 'maxGroupSize'];
-    const domID = ['tour','duration','price','maxGroupSize'];
+    const columns = ['Tour Name', 'Duration', 'Price', 'MaxGroupSize','Actions'];
+    const domID = ['tour','duration','price','maxGroupSize','actions'];
     const table = 'tour'
     let ids = []
     let tourDuration = [];
@@ -206,9 +206,9 @@ exports.manageDocs = catchAsync(async (req, res, next) => {
      });
   }else if(req.body.doc === 'user'){
     const users =  await User.find().select('name email role active retry');
-    const columns = ['User', 'email','role','active','retry'];
+    const columns = ['User', 'Email','Role','Active','Retry','Actions'];
     const table = 'user'
-    let domID =['user', 'email','role','active','retry']
+    let domID =['user', 'email','role','active','retry','actions']
     let ids = []
     let userName = [];
     let email=[];

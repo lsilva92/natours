@@ -51,3 +51,35 @@ export const manageUsers = async(id, user, email,role, active,retry) => {
     }
     
 }
+
+export const exportDoc = async (col) => {
+    try{ if (col === 'tours'){
+        const res = await axios({
+            method: 'GET',
+            url:'api/v1/backoffice/export/tours'
+        });
+        
+        if (res.data.status === 'success') {
+            showAlert('success', 'Export concluded succesfully!!');
+            window.setTimeout(() => {
+              location.assign('/manageTours');
+            }, 1500);
+          }        
+    }else if (col === 'users'){
+        const res = await axios({
+            method: 'GET',
+            url:'api/v1/backoffice/export/users'
+        });
+        
+        if (res.data.status === 'success') {
+            showAlert('success', 'Export concluded succesfully!!');
+            window.setTimeout(() => {
+              location.assign('/manageUsers');
+            }, 1500);
+          }  
+    }
+        
+    }catch (err){ 
+        showAlert('error', err.response.data.message);
+    }
+}

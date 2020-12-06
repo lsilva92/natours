@@ -247,9 +247,7 @@ body {
   background-color: #ca2929;
 }
 .btn--table {
-  margin-top: 1rem;
   display: none;
-  align-self: flex-end;
 }
 .show {
   display: block;
@@ -1492,9 +1490,10 @@ body {
 }
 table {
   font-family: 'Lato', sans-serif;
+  font-size: 1.3rem;
   border-collapse: collapse;
   width: 100%;
-  font-size: 1.3rem;
+  table-layout: fixed;
 }
 td,
 th {
@@ -1511,7 +1510,6 @@ tr:nth-child(even) {
   text-decoration: underline;
 }
 .edit--table {
-  margin-top: 1rem;
   align-self: flex-end;
 }
 .icon--save {
@@ -1520,6 +1518,36 @@ tr:nth-child(even) {
 }
 .icon--cancel {
   margin-left: 1rem;
+  fill: #55c57a;
+  cursor: pointer;
+}
+.delete {
+  margin-left: 1rem;
   fill: #ca2929;
   cursor: pointer;
+}
+.delete:hover,
+.icon--save:hover,
+.icon--cancel:hover {
+  opacity: 0.5;
+}
+select {
+  border: 0;
+  width: 100%;
+  background: transparent;
+  text-align: left;
+  padding: 8px;
+  font-size: 1.5rem;
+}
+.export {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: solid;
+  border-color: #55c57a;
+}
+.export:hover {
+  background-color: #dddddd;
+  color: #55c57a;
+  border-style: solid;
+  border-color: #55c57a;
 }

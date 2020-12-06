@@ -11,7 +11,7 @@ import { bookTour } from './stripe';
 import { showAlert } from './alerts';
 import { createReview, editReview } from './review';
 import { addLikeTour, deleteLikeTour } from './like';
-import { manageTours, manageUsers } from './manageBO';
+import { manageTours, manageUsers, exportDoc } from './manageBO';
 
 // DOM ELEMENTS
 const mapBox = document.getElementById('map');
@@ -33,6 +33,8 @@ const editTable = document.querySelectorAll('.edit--table');
 const tableBtn = document.querySelectorAll('.btn--table');
 const cancelBtn = document.querySelectorAll('.cancel');
 const saveBtn = document.querySelectorAll('.save');
+const exportTourBtn= document.getElementById('tours');
+const exportUserBtn = document.getElementById('users');
 const table = document.getElementsByTagName('table');
 const tourTable= document.querySelector('.tour');
 const userTable = document.querySelector('.user')
@@ -206,8 +208,18 @@ if(table){
     editTable[i].addEventListener('click', e => {
       const editContent = editTable[i].closest('tr').querySelectorAll('.tcontent');
       for(let x= 0; x < editContent.length; x++){
-        editContent[x].contentEditable='true';
+        if(editContent[x].id !== 'role' && editContent[x].id !=='active'){
+          editContent[x].style.fontWeight ='bold';
+          editContent[x].contentEditable='true';   
+        }
       }
+    
+      const select = editTable[i].closest('tr').querySelectorAll('select')
+      for(let y = 0; y < select.length; y++){
+        select[y].style.fontWeight ='bold';
+        select[y].disabled=false;
+      } 
+      
       editTable[i].classList.toggle('hide');
       tableBtn[i].classList.toggle('show');
     });
@@ -218,8 +230,16 @@ if(table){
     cancelBtn[i].addEventListener('click', e => {
     const editContent = editTable[i].closest('tr').querySelectorAll('.tcontent');
       for(let x= 0; x < editContent.length; x++){
+        editContent[x].style.fontWeight ='normal';
         editContent[x].contentEditable='false';
     }
+    
+    const select = editTable[i].closest('tr').querySelectorAll('select')
+      for(let y = 0; y < select.length; y++){
+        select[y].style.fontWeight ='normal';
+        select[y].disabled=true;
+      } 
+    
     tableBtn[i].classList.toggle('show')
     editTable[i].classList.toggle('hide');
     })
@@ -238,16 +258,26 @@ if(table){
       }else if (userTable){
         const {id}  = editTable[i].closest('tr').dataset;
         const rows = editTable[i].closest('tr').querySelectorAll('.tcontent');
+        const selectActive = rows[3].getElementsByTagName('select');
+        const selectRole = rows[2].getElementsByTagName('select');
+        
         const user = rows[0].innerHTML;
         const email = rows[1].innerHTML;
-        const role = rows[2].innerHTML;
-        const active = rows[3].innerHTML;
+        const role = selectRole[0].options[selectRole[0].selectedIndex].text;
+        const active = selectActive[0].options[selectActive[0].selectedIndex].text;
         const retry = rows[4].innerHTML;
+        
         manageUsers(id, user, email,role, active,retry)
       }
     });
   };
  }; 
+ 
+if(exportTourBtn)
+exportTourBtn.addEventListener('click', e => exportDoc('tours'));
+
+if(exportUserBtn)
+exportUserBtn.addEventListener('click', e => exportDoc('users'));
 
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20); 

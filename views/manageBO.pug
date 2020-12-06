@@ -8,7 +8,22 @@ block content
         -for(let i= 0; i < docs[0].length; i++){
         tr(data-id=`${ids[i]}`)
             -for(let x=0; x < docs.length; x++){
-                td.tcontent(id=`${domID[x]}`)=docs[x][i]
+                if (domID[x] === 'active')
+                    td.tcontent(id=`${domID[x]}`)
+                        select.select(disabled='true')#active
+                            option(value=`${docs[x][i]}`)=docs[x][i]
+                            option(value="true") true
+                            option(value="false") false
+                else if (domID[x] === 'role')
+                    td.tcontent(id=`${domID[x]}`)
+                        select(disabled='true')#active
+                            option(value=`${docs[x][i]}`)=docs[x][i]
+                            option(value="user") user
+                            option(value="guide") guide
+                            option(value="lead-guide") lead-guide
+                            option(value="admin") admin
+                else
+                    td.tcontent(id=`${domID[x]}`)=docs[x][i]
             -}
                 td.actions
                     div.edit--table
@@ -17,6 +32,14 @@ block content
                     .form__group.btn--table
                         svg.icon.icon--save.save
                             use(xlink:href='/img/icons.svg#icon-save')
+                        svg.icon.delete
+                            use(xlink:href='/img/icons.svg#icon-x')
                         svg.icon.icon--cancel.cancel
-                            use(xlink:href='/img/icons.svg#icon-x-circle')
+                            use(xlink:href='/img/icons.svg#icon-skip-back')
         -}
+    if table ==='tour'
+        div.right
+            button.btn.btn--small.btn--green.export#tours Export
+    if table === 'user'
+        div.right
+            button.btn.btn--small.btn--green.export#users Export
