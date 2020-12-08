@@ -21,6 +21,7 @@ router.get('/myReviews/:id', authController.protect, viewsController.getReview)
 
 router.get('/manageTours', authController.protect, authController.restrictTo('admin'), viewsController.checkDoc('tour'),viewsController.manageDocs)
 router.get('/manageUsers', authController.protect, authController.restrictTo('admin'), viewsController.checkDoc('user'), viewsController.manageDocs)
+router.get('/newTour', authController.protect, authController.restrictTo('admin'), viewsController.newTour)
 
 router.post(
   '/submit-user-data',

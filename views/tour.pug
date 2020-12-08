@@ -128,8 +128,9 @@ block content
                         div.popupcard
                             div.popcontent
                                 h3.heading-secondary.heading-secondarymarg Select Date:
-                                each i in [0,1,2]
+                                -for(let i = 0; i < dates; i++){
                                     p(class= 'popuptexth' id=`myPopup${i}` data-tour-date=`${tour.startDates[i].id}`)=`${tour.startDates[i].date.toLocaleString('en-GB', { timeZone: 'UTC' })}`
+                                -}
                     else
                         a.btn.btn--green.span-all-row(href='/login') Log in to book tour
         

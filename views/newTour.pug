@@ -1,0 +1,46 @@
+extends base
+
+block content
+    main.main
+        .login-form
+            h2.heading-secondary.ma-bt-lg Create New Tour
+            form.form.form--newTour
+                .form__group
+                    label.form__label(for='name') Tour Name
+                    input#tour.form__input(type='text', required)
+                .form__group
+                    label.form__label(for='price') Price
+                    input#price.form__input(type='number', required)
+                .form__group
+                    label.form__label(for='duration') Duration
+                    input#duration.form__input(type='number', required)
+                .form__group
+                    label.form__label(for='startdates') Start Dates
+                    input#startdates.form__input(type='datetime-local', required)
+                .form__group.ma-bt-md
+                    label.form__label(for='max-group-size') Max Group Size
+                    input#maxgroupsize.form__input(type='number', required)
+                .form__group.ma-bt-md.check--radio
+                    input#easy.radio__input(type='radio' name='difficulty' value='easy')
+                    label.radio__label(for='easy') Easy
+                    input#medium.radio__input(type='radio' name='difficulty' value= 'medium')
+                    label.radio__label(for='medium') Medium
+                    input#hard.radio__input(type='radio' name='difficult' value= 'difficult')
+                    label.radio__label(for='hard') Difficult
+                .form__group.ma-bt-md
+                    label.form__label(for='locations') Locations
+                    input#locations.form__input(type='text')
+                .form__group.ma-bt-md
+                    label.form__label(for='startlocation') Start Location
+                    input#startlocation.form__input(type='text')
+                .form__group.ma-bt-md
+                    label.form__label(for='summary') Summary
+                    input#summary.form__input(type='text')
+                .form__group.ma-bt-md
+                    label.form__label(for='description') Description
+                    input#description.form__input(type='text')
+                .form__group.form__photo-upload
+                        input.form__upload(type='file', accept='image/*', id='photo', name='photo')
+                        label(for='photo') Image Cover
+                .form__group
+                    button.btn.btn--green Create New Tour

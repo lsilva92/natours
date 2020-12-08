@@ -43,6 +43,8 @@ exports.getTour = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no tour with that name.', 404));
   }
   
+  const dates = tour.startDates.length
+  
 if (req.cookies.jwt){
       const currentUser = res.locals.user._id;
       let isBooked = false;
@@ -66,12 +68,14 @@ if (req.cookies.jwt){
     title: `${tour.name} Tour`,
     tour,
     isBooked,
-    isLiked
+    isLiked,
+    dates    
   }); 
 }else {
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
-    tour
+    tour,
+    dates
   }); 
 }
 });
@@ -239,3 +243,9 @@ exports.manageDocs = catchAsync(async (req, res, next) => {
     return next(new AppError('No document Found',400))
   }
  }); 
+ 
+ exports.newTour = catchAsync(async (req, res) => {
+   res.status(200).render('newTour', {
+     title: 'New Tour'
+   })
+ })

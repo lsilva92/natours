@@ -11,7 +11,8 @@ import { bookTour } from './stripe';
 import { showAlert } from './alerts';
 import { createReview, editReview } from './review';
 import { addLikeTour, deleteLikeTour } from './like';
-import { manageTours, manageUsers, exportDoc } from './manageBO';
+import { manageTours, manageUsers, exportDoc, boDeleteOne } from './manageBO';
+import {createTour} from './createTour';
 
 // DOM ELEMENTS
 const mapBox = document.getElementById('map');
@@ -20,6 +21,7 @@ const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const userSignUpForm = document.querySelector('.form--signup');
+const newTourForm = document.querySelector('.form--newTour')
 const bookBtn = document.getElementById('book-tour');
 const reviewBtn= document.getElementById('detail-review');
 const popUpCard = document.querySelector('.popupcard');
@@ -29,15 +31,17 @@ const reviewForm = document.querySelector('.review__form');
 const reviewStar = document.querySelector('.reviews__ratingpop');
 const reviewFormSub = document.querySelector('.form-review');
 const likeTour = document.querySelector('.favorite');
-const editTable = document.querySelectorAll('.edit--table');
+const editTable = document.querySelectorAll('.edit__icon');
 const tableBtn = document.querySelectorAll('.btn--table');
+const deleteBtn = document.querySelectorAll('.delete')
 const cancelBtn = document.querySelectorAll('.cancel');
 const saveBtn = document.querySelectorAll('.save');
 const exportTourBtn= document.getElementById('tours');
 const exportUserBtn = document.getElementById('users');
 const table = document.getElementsByTagName('table');
 const tourTable= document.querySelector('.tour');
-const userTable = document.querySelector('.user')
+const userTable = document.querySelector('.user');
+const difficultyCheck = document.querySelectorAll('.check--radio');
 
 //VALUES
 
@@ -64,7 +68,6 @@ if (userDataForm)
     form.append('name', document.getElementById('name').value);
     form.append('email', document.getElementById('email').value);
     form.append('photo', document.getElementById('photo').files[0]);
-
     updateSettings(form, 'data');
   });
 
@@ -97,6 +100,38 @@ if (userSignUpForm)
     signUp({ name, email, password, passwordConfirm });
   });
   
+
+
+if(newTourForm){
+  var difficulty;
+    
+  for(let i = 0; i < difficultyCheck.length; i++){
+    difficultyCheck[i].addEventListener('click', e => {
+      difficulty = e.target.value
+    });
+  }
+  newTourForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('tour').value;
+    const price = document.getElementById('price').value;
+    const duration = document.getElementById('duration').value;
+    const dates = document.getElementById('startdates').value;
+    const maxGroupSize = document.getElementById('maxgroupsize').value;
+    const location = document.getElementById('locations').value;
+    const start = document.getElementById('startlocation').value;
+    const summary = document.getElementById('summary').value;
+    const description = document.getElementById('description').value;
+    const imageCover = document.getElementById('photo').files[0].name;
+    
+    const startDates = [{date: dates}]
+    
+    const locations= [{description:location,type: 'Point',coordinates: [-106.855385, 39.182677]}];
+    const startLocation = {description:start,type: 'Point', coordinates: [-106.855385, 39.182677]};
+  
+    createTour(name, price, duration,startDates, maxGroupSize, difficulty, locations,startLocation, summary, description, imageCover);
+});
+}
+
 if(editReviewForm)  
   editReviewForm.addEventListener('submit', e=>{
     e.preventDefault();
@@ -139,7 +174,6 @@ if (bookBtn)
 });
 
 function reviewAddEdit(item){ 
-    console.log(item)
     item.addEventListener('click', e => {
     reviewForm.style.display='block';
     
@@ -222,6 +256,7 @@ if(table){
       
       editTable[i].classList.toggle('hide');
       tableBtn[i].classList.toggle('show');
+      deleteBtn[i].classList.toggle('hide');
     });
   };
   
@@ -242,6 +277,7 @@ if(table){
     
     tableBtn[i].classList.toggle('show')
     editTable[i].classList.toggle('hide');
+    deleteBtn[i].classList.toggle('hide');
     })
   }
   //save button 
@@ -271,8 +307,21 @@ if(table){
       }
     });
   };
- }; 
- 
+  
+  //delete Button
+  for (let i = 0; i < deleteBtn.length; i++){
+    deleteBtn[i].addEventListener('click', e => {
+      if(tourTable){
+        const {id}  = editTable[i].closest('tr').dataset;
+        boDeleteOne(id, 'tour');
+      }else if(userTable){
+        const {id}  = editTable[i].closest('tr').dataset;
+        boDeleteOne(id, 'user');
+      }
+  }
+    )}
+}
+    
 if(exportTourBtn)
 exportTourBtn.addEventListener('click', e => exportDoc('tours'));
 

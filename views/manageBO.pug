@@ -28,18 +28,21 @@ block content
                 td.actions
                     div.edit--table
                         svg.icon.edit__icon
-                            use(xlink:href='/img/icons.svg#icon-edit')    
+                            use(xlink:href='/img/icons.svg#icon-edit')  
+                        svg.icon.delete__icon.delete
+                            use(xlink:href='/img/icons.svg#icon-x-circle')    
                     .form__group.btn--table
                         svg.icon.icon--save.save
                             use(xlink:href='/img/icons.svg#icon-save')
-                        svg.icon.delete
-                            use(xlink:href='/img/icons.svg#icon-x')
                         svg.icon.icon--cancel.cancel
-                            use(xlink:href='/img/icons.svg#icon-skip-back')
+                            use(xlink:href='/img/icons.svg#icon-x')
         -}
     if table ==='tour'
         div.right
             button.btn.btn--small.btn--green.export#tours Export
+            a(href='/newTour')
+                button.btn.btn--small.btn--green.export#insert--Tour= `insert new ${table}`
     if table === 'user'
         div.right
             button.btn.btn--small.btn--green.export#users Export
+            button.btn.btn--small.btn--green.export#insert--User= `insert new ${table}`

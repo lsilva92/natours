@@ -80,9 +80,23 @@ exports.aliasTopTours = (req, res, next) => {
 
 exports.getAllTours = factory.getAll(Tour);
 exports.getTour = factory.getOne(Tour, { path: 'reviews' });
-exports.createTour = factory.createOne(Tour);
 exports.updateTour = factory.updateOne(Tour);
 exports.deleteTour = factory.deleteOne(Tour);
+
+
+exports.createTour = catchAsync(async (req, res, next) => {
+  console.log(req.body)
+  const tour = Tour.create(req.body);
+  
+  res.status(201).json({
+    status: 'success',
+    data: {
+      tour
+    }
+  });
+});
+
+
 
 exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([

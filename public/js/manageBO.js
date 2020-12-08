@@ -83,3 +83,29 @@ export const exportDoc = async (col) => {
         showAlert('error', err.response.data.message);
     }
 }
+
+export const boDeleteOne = async (id, doc) => {
+    if (doc === 'tour'){
+        const res = await axios({
+            method: 'DELETE',
+            url: `api/v1/tours/${id}`
+        });
+        if (res.status === 204) {
+            showAlert('success', 'Tour deleted succesfully!!');
+            window.setTimeout(() => {
+              location.assign('/manageTours');
+            }, 1500);
+        }
+    }else if (doc==='user'){
+        const res = await axios({
+            method: 'DELETE',
+            url: `api/v1/users/${id}`
+        });
+        if (res.status === 204) {
+            showAlert('success', 'User deleted succesfully!!');
+            window.setTimeout(() => {
+              location.assign('/manageUsers');
+            }, 1500);
+        }
+    }
+}
