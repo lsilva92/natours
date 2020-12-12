@@ -1,6 +1,12 @@
 extends base
     
 block content
+    div.popupcard
+        div.popcontent
+            h3= `Are you sure you want to delete this ${table}?`
+            button.btn.btn--small.btn--green#confirm-yes Yes
+            button.btn.btn--small.btn--red#confirm-no No
+            
     table(class = `${table}`)
         -for(let i = 0; i < columns.length; i++)
             th.col= columns[i]

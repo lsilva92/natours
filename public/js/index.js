@@ -3,6 +3,7 @@
 /*Index.js purpose is to get data from user interface and delegate actions to the modules*/
 
 import '@babel/polyfill';
+import { elements } from './domElements';
 import { displayMap } from './mapbox';
 import { login, logout } from './login';
 import { updateSettings } from './updateSettings';
@@ -14,55 +15,26 @@ import { addLikeTour, deleteLikeTour } from './like';
 import { manageTours, manageUsers, exportDoc, boDeleteOne } from './manageBO';
 import {createTour} from './createTour';
 
-// DOM ELEMENTS
-const mapBox = document.getElementById('map');
-const loginForm = document.querySelector('.form--login');
-const logOutBtn = document.querySelector('.nav__el--logout');
-const userDataForm = document.querySelector('.form-user-data');
-const userPasswordForm = document.querySelector('.form-user-password');
-const userSignUpForm = document.querySelector('.form--signup');
-const newTourForm = document.querySelector('.form--newTour')
-const bookBtn = document.getElementById('book-tour');
-const reviewBtn= document.getElementById('detail-review');
-const popUpCard = document.querySelector('.popupcard');
-const addReview = document.querySelector('.add__review');
-const editReviewForm = document.querySelector('.form--review');
-const reviewForm = document.querySelector('.review__form');
-const reviewStar = document.querySelector('.reviews__ratingpop');
-const reviewFormSub = document.querySelector('.form-review');
-const likeTour = document.querySelector('.favorite');
-const editTable = document.querySelectorAll('.edit__icon');
-const tableBtn = document.querySelectorAll('.btn--table');
-const deleteBtn = document.querySelectorAll('.delete')
-const cancelBtn = document.querySelectorAll('.cancel');
-const saveBtn = document.querySelectorAll('.save');
-const exportTourBtn= document.getElementById('tours');
-const exportUserBtn = document.getElementById('users');
-const table = document.getElementsByTagName('table');
-const tourTable= document.querySelector('.tour');
-const userTable = document.querySelector('.user');
-const difficultyCheck = document.querySelectorAll('.check--radio');
-
 //VALUES
 
 //DELEGATION
-if (mapBox) {
-  const locations = JSON.parse(mapBox.dataset.locations);
+if (elements.mapBox) {
+  const locations = JSON.parse(elements.mapBox.dataset.locations);
   displayMap(locations);
 }
 
-if (loginForm)
-  loginForm.addEventListener('submit', e => {
+if (elements.loginForm)
+  elements.loginForm.addEventListener('submit', e => {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     login(email, password);
   });
 
-if (logOutBtn) logOutBtn.addEventListener('click', logout);
+if (elements.logOutBtn) elements.logOutBtn.addEventListener('click', logout);
 
-if (userDataForm)
-  userDataForm.addEventListener('submit', e => {
+if (elements.userPasswordForm)
+  elements.userPasswordForm.addEventListener('submit', e => {
     e.preventDefault();
     const form = new FormData();
     form.append('name', document.getElementById('name').value);
@@ -71,8 +43,8 @@ if (userDataForm)
     updateSettings(form, 'data');
   });
 
-if (userPasswordForm)
-  userPasswordForm.addEventListener('submit', async e => {
+if (elements.userPasswordForm)
+  elements.userPasswordForm.addEventListener('submit', async e => {
     e.preventDefault();
     document.querySelector('.btn--save--password').textContent = 'Updating...';
     const currentPassword = document.getElementById('password-current').value;
@@ -90,8 +62,8 @@ if (userPasswordForm)
     document.getElementById('password-confirm').value = '';
   });
 
-if (userSignUpForm)
-  userSignUpForm.addEventListener('submit', e => {
+if (elements.userSignUpForm)
+  elements.userSignUpForm.addEventListener('submit', e => {
     e.preventDefault();
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
@@ -102,15 +74,15 @@ if (userSignUpForm)
   
 
 
-if(newTourForm){
+if(elements.newTourForm){
   var difficulty;
     
-  for(let i = 0; i < difficultyCheck.length; i++){
-    difficultyCheck[i].addEventListener('click', e => {
+  for(let i = 0; i < elements.difficultyCheck.length; i++){
+    elements.difficultyCheck[i].addEventListener('click', e => {
       difficulty = e.target.value
     });
   }
-  newTourForm.addEventListener('submit', e => {
+  elements.newTourForm.addEventListener('submit', e => {
     e.preventDefault();
     const name = document.getElementById('tour').value;
     const price = document.getElementById('price').value;
@@ -132,10 +104,10 @@ if(newTourForm){
 });
 }
 
-if(editReviewForm)  
-  editReviewForm.addEventListener('submit', e=>{
+if(elements.editReviewForm)  
+  elements.editReviewForm.addEventListener('submit', e=>{
     e.preventDefault();
-    const { reviewId } = reviewBtn.dataset;
+    const { reviewId } = elements.reviewBtn.dataset;
     const review= document.getElementById('review').value;
     const ratings = []
     const stars = document.querySelector('.reviews__ratingpop').querySelectorAll('.reviews__star--active')
@@ -150,16 +122,16 @@ if(editReviewForm)
 
 
 
-if (bookBtn)
-  bookBtn.addEventListener('click', e => {
-    popUpCard.style.display='block';
+if (elements.bookBtn)
+  elements.bookBtn.addEventListener('click', e => {
+    elements.popUpCard.style.display='block';
     
     const { tourId } = e.target.dataset;
     
   //Se clicar fora do pop up, fecha-o
   window.onclick = function(e) {
-    if (e.target == popUpCard) {
-      popUpCard.style.display = 'none';
+    if (e.target == elements.popUpCard) {
+      elements.popUpCard.style.display = 'none';
     }else if (e.target.id == 'myPopup0'){
       const {tourDate}  = e.target.dataset
       bookTour(tourId, tourDate);
@@ -175,23 +147,23 @@ if (bookBtn)
 
 function reviewAddEdit(item){ 
     item.addEventListener('click', e => {
-    reviewForm.style.display='block';
+    elements.reviewForm.style.display='block';
     
     window.onclick = function(e) {
-      if (e.target == reviewForm){
-        reviewForm.style.display = 'none'
+      if (e.target == elements.reviewForm){
+        elements.reviewForm.style.display = 'none'
       }
     }
   });
 }
 
   
-if(addReview)
-  reviewAddEdit(addReview);
+if(elements.addReview)
+  reviewAddEdit(elements.addReview);
 
  
-  if(reviewStar)
-    reviewStar.addEventListener('click', e => {
+  if(elements.reviewStar)
+    elements.reviewStar.addEventListener('click', e => {
       const star = [1,2,3,4,5];
       const rating = e.target.id;
       
@@ -206,8 +178,8 @@ if(addReview)
       }
 });
     
-if (reviewFormSub)
-    reviewFormSub.addEventListener('submit', e => {
+if (elements.reviewFormSub)
+    elements.reviewFormSub.addEventListener('submit', e => {
     e.preventDefault();
     const review = document.getElementById('review').value;
     
@@ -222,8 +194,8 @@ if (reviewFormSub)
     createReview(tourId, review, rating);
   });
   
-if(likeTour)
-  likeTour.addEventListener('click', e => {
+if(elements.likeTour)
+  elements.likeTour.addEventListener('click', e => {
     const like = document.querySelector('.like__icon').classList.toggle('liked');
     
     const tourId = document.querySelector('.like__icon').dataset.tourId;
@@ -236,64 +208,64 @@ if(likeTour)
   })
   
 //BackOffice  
-if(table){
+if(elements.table){
   //edit button
-  for(let i = 0; i < editTable.length; i++){
-    editTable[i].addEventListener('click', e => {
-      const editContent = editTable[i].closest('tr').querySelectorAll('.tcontent');
+  for(let i = 0; i < elements.editTable.length; i++){
+    elements.editTable[i].addEventListener('click', e => {
+      const editContent = elements.editTable[i].closest('tr').querySelectorAll('.tcontent');
       for(let x= 0; x < editContent.length; x++){
         if(editContent[x].id !== 'role' && editContent[x].id !=='active'){
           editContent[x].style.fontWeight ='bold';
-          editContent[x].contentEditable='true';   
+          editContent[x].contentEdielements.table='true';   
         }
       }
     
-      const select = editTable[i].closest('tr').querySelectorAll('select')
+      const select = elements.editTable[i].closest('tr').querySelectorAll('select')
       for(let y = 0; y < select.length; y++){
         select[y].style.fontWeight ='bold';
         select[y].disabled=false;
       } 
       
-      editTable[i].classList.toggle('hide');
-      tableBtn[i].classList.toggle('show');
-      deleteBtn[i].classList.toggle('hide');
+      elements.editTable[i].classList.toggle('hide');
+      elements.elements.tableBtn[i].classList.toggle('show');
+      elements.deleteBtn[i].classList.toggle('hide');
     });
   };
   
   //cancel button
-  for(let i= 0; i < editTable.length; i++){
-    cancelBtn[i].addEventListener('click', e => {
-    const editContent = editTable[i].closest('tr').querySelectorAll('.tcontent');
+  for(let i= 0; i < elements.editTable.length; i++){
+    elements.cancelBtn[i].addEventListener('click', e => {
+    const editContent = elements.editTable[i].closest('tr').querySelectorAll('.tcontent');
       for(let x= 0; x < editContent.length; x++){
         editContent[x].style.fontWeight ='normal';
-        editContent[x].contentEditable='false';
+        editContent[x].contentEdielements.table='false';
     }
     
-    const select = editTable[i].closest('tr').querySelectorAll('select')
+    const select = elements.editTable[i].closest('tr').querySelectorAll('select')
       for(let y = 0; y < select.length; y++){
         select[y].style.fontWeight ='normal';
         select[y].disabled=true;
       } 
     
-    tableBtn[i].classList.toggle('show')
-    editTable[i].classList.toggle('hide');
-    deleteBtn[i].classList.toggle('hide');
+    elements.elements.tableBtn[i].classList.toggle('show')
+    elements.editTable[i].classList.toggle('hide');
+    elements.deleteBtn[i].classList.toggle('hide');
     })
   }
   //save button 
-  for(let i= 0; i < editTable.length ; i++){
-    saveBtn[i].addEventListener('click',e => {
-      if(tourTable){
-        const {id}  = editTable[i].closest('tr').dataset;
-        const rows = editTable[i].closest('tr').querySelectorAll('.tcontent');
+  for(let i= 0; i < elements.editTable.length ; i++){
+    elements.saveBtn[i].addEventListener('click',e => {
+      if(elements.tourTable){
+        const {id}  = elements.editTable[i].closest('tr').dataset;
+        const rows = elements.editTable[i].closest('tr').querySelectorAll('.tcontent');
         const tourName = rows[0].innerHTML;
         const tourDuration = rows[1].innerHTML;
         const tourPrice= rows[2].innerHTML;
         const tourGroupSize= rows[3].innerHTML;
         manageTours(id, tourName, tourDuration, tourPrice,tourGroupSize);
-      }else if (userTable){
-        const {id}  = editTable[i].closest('tr').dataset;
-        const rows = editTable[i].closest('tr').querySelectorAll('.tcontent');
+      }else if (elements.userTable){
+        const {id}  = elements.editTable[i].closest('tr').dataset;
+        const rows = elements.editTable[i].closest('tr').querySelectorAll('.tcontent');
         const selectActive = rows[3].getElementsByTagName('select');
         const selectRole = rows[2].getElementsByTagName('select');
         
@@ -308,25 +280,44 @@ if(table){
     });
   };
   
+  
   //delete Button
-  for (let i = 0; i < deleteBtn.length; i++){
-    deleteBtn[i].addEventListener('click', e => {
-      if(tourTable){
-        const {id}  = editTable[i].closest('tr').dataset;
-        boDeleteOne(id, 'tour');
-      }else if(userTable){
-        const {id}  = editTable[i].closest('tr').dataset;
-        boDeleteOne(id, 'user');
+  for (let i = 0; i < elements.deleteBtn.length; i++){
+    elements.deleteBtn[i].addEventListener('click', e => {
+      if(elements.tourTable){
+        const {id}  = elements.editTable[i].closest('tr').dataset;
+        elements.popUpCard.style.display='block';
+        
+        elements.confirmNo.addEventListener('click', e => {
+          elements.popUpCard.style.display = 'none'
+        });
+        
+        elements.confirmYes.addEventListener('click', e => {
+          boDeleteOne(id, 'tour');
+        });
+            
+        //boDeleteOne(id, 'tour');
+      }else if(elements.userTable){
+        const {id}  = elements.editTable[i].closest('tr').dataset;
+        elements.popUpCard.style.display='block';
+        
+        elements.confirmNo.addEventListener('click', e => {
+          elements.popUpCard.style.display = 'none'
+        });
+        
+        elements.confirmYes.addEventListener('click', e => {
+          boDeleteOne(id, 'user');
+        });
       }
   }
     )}
 }
     
-if(exportTourBtn)
-exportTourBtn.addEventListener('click', e => exportDoc('tours'));
+if(elements.exportTourBtn)
+  elements.exportTourBtn.addEventListener('click', e => exportDoc('tours'));
 
-if(exportUserBtn)
-exportUserBtn.addEventListener('click', e => exportDoc('users'));
+if(elements.exportUserBtn)
+  elements.exportUserBtn.addEventListener('click', e => exportDoc('users'));
 
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20); 
