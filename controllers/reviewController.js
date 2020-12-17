@@ -3,8 +3,6 @@ const factory = require('./handlerFactory');
 const Booking = require('../models/bookingModel');
 const AppError = require('./../utils/appError');
 
-
-
 exports.setTourUserIds = (req, res, next) => {
   //Allow nested routes
   //Se o tour não existir no body usar o id no url

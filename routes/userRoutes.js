@@ -2,8 +2,11 @@ const express = require('express');
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
 const bookingRouter = require('./bookingRoutes');
+const reviewRouter = require('./reviewRoutes');
 
 const router = express.Router();
+
+router.use('/:userId/reviews', reviewRouter);
 
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
@@ -19,7 +22,10 @@ router.use('/:userId/bookings', bookingRouter);
 
 router.patch('/updateMyPassword', authController.updatePassword);
 
-router.route('/likeTour').post(userController.likeTour).delete(userController.deleteFavoriteTour);
+router
+  .route('/likeTour')
+  .post(userController.likeTour)
+  .delete(userController.deleteFavoriteTour);
 
 //authController.protect se if user is log in and allows to read user id from req.user.id
 router.get('/me', userController.getMe, userController.getUser);

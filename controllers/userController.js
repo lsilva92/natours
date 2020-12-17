@@ -105,12 +105,11 @@ exports.createUser = (req, res) => {
 };
 
 exports.likeTour = catchAsync(async (req, res, next) => {
-  
- const user =  await User.findById(req.user.id);
- 
- user.likedTours.push(req.body.id);
- await user.save({ validateBeforeSave: false});
- 
+  const user = await User.findById(req.user.id);
+
+  user.likedTours.push(req.body.id);
+  await user.save({ validateBeforeSave: false });
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -119,12 +118,12 @@ exports.likeTour = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteFavoriteTour= catchAsync(async (req, res, next) => {
-  const user =  await User.findById(req.user.id);
- 
- user.likedTours.pull(req.body.id);
- await user.save({ validateBeforeSave: false});
- 
+exports.deleteFavoriteTour = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  user.likedTours.pull(req.body.id);
+  await user.save({ validateBeforeSave: false });
+
   res.status(204).json({
     status: 'success',
     data: null
@@ -136,4 +135,24 @@ exports.getUser = factory.getOne(User);
 
 //DO NOT update passwords with this!
 exports.updateUser = factory.updateOne(User);
-exports.deleteUser = factory.deleteOne(User);
+
+exports.deleteUser = catchAsync(async (req, res, next) => {
+  const currentUser = JSON.stringify(req.user._id);
+  const delUser = JSON.stringify(req.params.id);
+
+  if (delUser === currentUser) {
+    return next(
+      new AppError(
+        `Can't DELETE Yourself, please use another account to delete this user!`,
+        400
+      )
+    );
+  }
+
+  await User.findByIdAndDelete(req.params.id);
+
+  res.status(204).json({
+    status: 'success',
+    data: null
+  });
+});
