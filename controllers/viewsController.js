@@ -1,9 +1,13 @@
+/* eslint-disable */
 const Tour = require('../models/tourModel');
 const User = require('../models/userModel');
 const Booking = require('../models/bookingModel');
 const Review = require('../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+
+const viewRouter = require('../routes/viewRoutes');
+
 
 exports.alerts = (req, res, next) => {
   const { alert } = req.query;
@@ -101,19 +105,31 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   const tourIDs = bookings.map(el => el.tour);
   const tours = await Tour.find({ _id: { $in: tourIDs } });
 
-  res.status(200).render('overview', {
-    title: 'My Tours',
-    tours
-  });
+  if (tours.length < 1){
+    res.status(200).render('overview', {
+      title: 'My Tours'
+    });
+  }else {
+    res.status(200).render('overview', {
+      title: 'My Tours',
+      tours
+    });
+  }
 });
 
 exports.myReviews = catchAsync(async (req, res, next) => {
   const reviews = await Review.find({ user: req.user.id }).populate('tour');
-
-  res.status(200).render('myReviews', {
-    title: 'My Reviews',
-    reviews
-  });
+  
+  if(reviews < 1){
+    res.status(200).render('myReviews', {
+      title: 'My Reviews'
+    });
+  }else{
+    res.status(200).render('myReviews', {
+      title: 'My Reviews',
+      reviews
+    });
+  }
 });
 
 exports.getReview = catchAsync(async (req, res, next) => {
