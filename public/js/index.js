@@ -216,7 +216,20 @@ if(elements.table){
       for(let x= 0; x < editContent.length; x++){
         if(editContent[x].id !== 'role' && editContent[x].id !=='active'){
           editContent[x].style.fontWeight ='bold';
-          editContent[x].table='true';   
+          editContent[x].contentEditable ='true';   
+        }else {
+           //Buscar todas a opções disponiveis e a que está selecionda
+           const selectEl = editContent[x].getElementsByTagName('select')
+           const options = selectEl[0].options
+           const selectedOption = selectEl[0].selectedOptions[0].text  
+           
+           //Faz um loop por todas as opções existentes e remove a que for igual à que já está selecionada
+           //A variável começa no indice 1 porque o 0 é a opção que já está selecionada
+           for (let y = 1; y < options.length; y++){
+             if (options[y].text === selectedOption){
+               options[y].remove(y)
+             }
+           }    
         }
       }
     
