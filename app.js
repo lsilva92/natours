@@ -19,7 +19,7 @@ const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const bookingController = require('./controllers/bookingController');
 const viewRouter = require('./routes/viewRoutes');
-const backofficeRouter = require('./routes/backofficeRoutes')
+const backofficeRouter = require('./routes/backofficeRoutes');
 
 //start express app
 const app = express();

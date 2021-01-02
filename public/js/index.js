@@ -216,7 +216,7 @@ if(elements.table){
       for(let x= 0; x < editContent.length; x++){
         if(editContent[x].id !== 'role' && editContent[x].id !=='active'){
           editContent[x].style.fontWeight ='bold';
-          editContent[x].contentEdielements.table='true';   
+          editContent[x].table='true';   
         }
       }
     
@@ -227,7 +227,7 @@ if(elements.table){
       } 
       
       elements.editTable[i].classList.toggle('hide');
-      elements.elements.tableBtn[i].classList.toggle('show');
+      elements.tableBtn[i].classList.toggle('show');
       elements.deleteBtn[i].classList.toggle('hide');
     });
   };
@@ -238,7 +238,7 @@ if(elements.table){
     const editContent = elements.editTable[i].closest('tr').querySelectorAll('.tcontent');
       for(let x= 0; x < editContent.length; x++){
         editContent[x].style.fontWeight ='normal';
-        editContent[x].contentEdielements.table='false';
+        editContent[x].table='false';
     }
     
     const select = elements.editTable[i].closest('tr').querySelectorAll('select')
@@ -247,7 +247,7 @@ if(elements.table){
         select[y].disabled=true;
       } 
     
-    elements.elements.tableBtn[i].classList.toggle('show')
+    elements.tableBtn[i].classList.toggle('show')
     elements.editTable[i].classList.toggle('hide');
     elements.deleteBtn[i].classList.toggle('hide');
     })
